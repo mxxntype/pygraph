@@ -23,17 +23,21 @@ class Graph:
     def add_vertex(self, id: int, connected_vertices: list[int] = []):
         # TODO: Check that all connected vertices exist
         for connected_vertex in connected_vertices:
-            self.edges.append(Edge(
-                starting_vertex=Vertex(index=id),
-                ending_vertex=Vertex(index=connected_vertex)
-            ))
+            self.edges.append(
+                Edge(
+                    starting_vertex=Vertex(index=id),
+                    ending_vertex=Vertex(index=connected_vertex)
+                )
+            )
 
     def add_edge(self, id_1: int, id_2: int) -> None:
         # TODO: Check that both vertices exist
-        self.edges.append(Edge(
-            starting_vertex=Vertex(index=id_1),
-            ending_vertex=Vertex(index=id_2)
-        ))
+        self.edges.append(
+            Edge(
+                starting_vertex=Vertex(index=id_1),
+                ending_vertex=Vertex(index=id_2)
+            )
+        )
 
     def remove_vertex(self, vertex: int):
         tmp = self.edges.copy()
