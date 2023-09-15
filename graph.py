@@ -1,60 +1,73 @@
 from dataclasses import dataclass
+from typing import Union
 
 from vertex import Vertex
 from edge import Edge
 
 class Graph:
-    node_count: int = 0
-    edge_count: int = 0
     edges: list[Edge] = []
     
     def __init__(self, edges: list[Edge] = []) -> None:
         self.edges = edges
 
-    def first(self, v: int) -> int:
+    # Return the index of the first vertex connected with the given one
+    # Returns `None` if the given vertex is not linked with any other
+    def first(self, vertex: Vertex) -> Union[int, None]:
+        # TODO
         return 0
 
-    def next(self, v: int, i: int) -> int:
+    # TODO
+    def next(self, vertex: Vertex, index: int) -> Union[int, None]:
         return 0
 
-    def vertex(self, v: int, i: int):
+    # From vertices that are connected to `vertex`, return the one with the give index
+    # Returns `None` if such vertex could not be found
+    def vertex(self, vertex: Vertex, index: int) -> Union[Vertex, None]:
+        # TODO
         pass
 
-    def add_vertex(self, id: int, connected_vertices: list[int] = []):
-        # TODO: Check that all connected vertices exist
+    # Add a vertex to the graph and link it with other vertices, creating them if needed
+    def add_vertex(self, vertex: Vertex, connected_vertices: list[Vertex]):
         for connected_vertex in connected_vertices:
-            self.edges.append(
+            self.add_edge(
                 Edge(
-                    starting_vertex=Vertex(index=id),
-                    ending_vertex=Vertex(index=connected_vertex)
+                    starting_vertex=vertex,
+                    ending_vertex=connected_vertex,
                 )
             )
 
-    def add_edge(self, id_1: int, id_2: int) -> None:
-        # TODO: Check that both vertices exist
-        self.edges.append(
-            Edge(
-                starting_vertex=Vertex(index=id_1),
-                ending_vertex=Vertex(index=id_2)
-            )
-        )
+    # Link two vertices, creating them if needed
+    def add_edge(self, edge: Edge) -> None:
+        self.edges.append(edge)
 
-    def remove_vertex(self, vertex: int):
-        tmp = self.edges.copy()
+    # Remove the given vertex and all edges connected to it
+    def remove_vertex(self, vertex: Vertex):
+        __tmp_edges = self.edges.copy()
         for edge in self.edges:
             if vertex in [edge.starting_vertex, edge.ending_vertex]:
-                tmp.remove(edge)
-        self.edges = tmp.copy();
+                __tmp_edges.remove(edge)
+        self.edges = __tmp_edges.copy();
 
+    # Unlink two vertices
     def remove_edge(self, edge: Edge) -> None:
+        if (edge not in self.edges):
+            raise Exception("Cannot remove non-existent edge")
         self.edges.remove(edge)
 
-    def edit_vertex(self):
-        pass
+    # In all edges that have `old_vertex`, replace it with `new_vertex`
+    def edit_vertex(self, old_vertex: Vertex, new_vertex: Vertex):
+        for edge in self.edges:
+            if (edge.starting_vertex == old_vertex):
+                edge.starting_vertex = new_vertex
+            if (edge.ending_vertex == old_vertex):
+                edge.ending_vertex = new_vertex
 
-    def edit_edge(self):
-        pass
+    # Replace `old_edge` with `new_edge`
+    def edit_edge(self, old_edge: Edge, new_edge: Edge):
+        self.remove_edge(old_edge)
+        self.add_edge(new_edge)
 
+    # Print relations between vertices
     def print(self) -> None:
         for edge in self.edges:
             print(f"Vertex {edge.starting_vertex.index} -> Vertex {edge.ending_vertex.index}")

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-
 from vertex import Vertex
 
 @dataclass
@@ -17,7 +16,7 @@ class Edge:
         self.ending_vertex = ending_vertex
         self.weight = weight
         
-    def invert(self):
+    def invert(self) -> None:
         tmp = self.starting_vertex
         self.starting_vertex = self.ending_vertex
         self.ending_vertex = tmp
