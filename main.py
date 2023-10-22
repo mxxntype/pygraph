@@ -49,6 +49,9 @@ def main():
     )
 
     graph.print()
+    print(graph.first(Vertex(index=6)))
+    print(graph.next(Vertex(index=6), 4))
+    print(graph.vertex(Vertex(index=6), 3))
 
 if __name__ == "__main__":
     main()
