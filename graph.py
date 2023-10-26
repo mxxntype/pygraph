@@ -5,6 +5,9 @@ from edge import Edge
 
 class Graph:
     edges: list[Edge] = []
+    index: int = 0
+    stack: list[Vertex] = []
+    sccs: list[list[Vertex]] = []
     
     def __init__(self, edges: list[Edge] = []) -> None:
         self.edges = edges
@@ -74,6 +77,46 @@ class Graph:
     def edit_edge(self, old_edge: Edge, new_edge: Edge):
         self.remove_edge(old_edge)
         self.add_edge(new_edge)
+
+    def get_vertices(self) -> list[Vertex]:
+        output: set[Vertex] = set()
+        for edge in self.edges:
+            output.add(edge.starting_vertex)
+            output.add(edge.ending_vertex)
+        return list(output)
+
+    # Helper function for Tarjan's algorithm.
+    def strongconnect(self, v: Vertex):
+        v.depth = self.index
+        v.lowlink = self.index
+        self.index += 1
+        self.stack.append(v)
+        v.on_stack = True
+
+        for e in (e for e in self.edges if e.starting_vertex == v):
+            w: Vertex = e.ending_vertex
+            if w.depth == -1:
+                self.strongconnect(w)
+                v.lowlink = min(v.lowlink, w.lowlink)
+            elif w.on_stack:
+                v.lowlink = min(v.lowlink, w.depth)
+
+        if v.lowlink == v.depth:
+            scc: list[Vertex] = []
+            while True:
+                w = self.stack.pop()
+                w.on_stack = False
+                scc.append(w)
+                if w == v:
+                    break
+            self.sccs.append(scc)
+
+    # SCC search using Tarjan's algorithm
+    def tarjan(self) -> list[list[Vertex]]:
+        for v in self.get_vertices():
+            if v.depth == -1:
+                self.strongconnect(v)
+        return self.sccs
 
     # Print relations between vertices
     def print(self) -> None:
