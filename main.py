@@ -14,6 +14,7 @@ def main():
     for scc in scss_2:
         show_scc(scc)
 
+# Show SCC's vertices by their index..
 def show_scc(scc: list[Vertex]) -> None:
     indices: list[int] = [v.index for v in scc]
     indices.sort()

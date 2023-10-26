@@ -2,6 +2,7 @@ from graph import Graph
 from edge import Edge
 from vertex import Vertex
 
+# Produce example Graph #1.
 def first_graph() -> Graph:
     graph: Graph = Graph()
 
@@ -28,6 +29,7 @@ def first_graph() -> Graph:
 
     return graph
 
+# Produce example Graph #2.
 def second_graph() -> Graph:
     graph: Graph = Graph()
     vertex_1: Vertex = Vertex(index=1)
