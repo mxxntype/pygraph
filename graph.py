@@ -109,7 +109,8 @@ class Graph:
                 scc.append(w)
                 if w == v:
                     break
-            self.sccs.append(scc)
+            if len(scc) > 1:
+                self.sccs.append(scc)
 
     # SCC search using Tarjan's algorithm
     def tarjan(self) -> list[list[Vertex]]:
