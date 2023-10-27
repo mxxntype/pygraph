@@ -98,9 +98,8 @@ class Graph:
             w: Vertex = e.ending_vertex
             if w.depth == -1:
                 self.strongconnect(w)
+            if w.on_stack:
                 v.lowlink = min(v.lowlink, w.lowlink)
-            elif w.on_stack:
-                v.lowlink = min(v.lowlink, w.depth)
 
         if v.lowlink == v.depth:
             scc: list[Vertex] = []
