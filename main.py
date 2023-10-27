@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from graph import Graph, Vertex
+from graph import Vertex
 import util
 
 def main():
