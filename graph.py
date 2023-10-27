@@ -88,6 +88,7 @@ class Graph:
 
     # Helper function for Tarjan's algorithm.
     def strongconnect(self, v: Vertex):
+        print(f"Vertex: {v.index}")
         v.depth = self.index
         v.lowlink = self.index
         self.index += 1
@@ -101,6 +102,8 @@ class Graph:
             if w.on_stack:
                 v.lowlink = min(v.lowlink, w.lowlink)
 
+        print(v, [v.index for v in self.stack])
+
         if v.lowlink == v.depth:
             scc: list[Vertex] = []
             while True:
@@ -110,12 +113,15 @@ class Graph:
                 if w == v:
                     break
             if len(scc) > 1:
+                print("Найдена ССК:", end=" ")
+                show_scc(scc)
                 self.sccs.append(scc)
 
     # SCC search using Tarjan's algorithm
     def tarjan(self) -> list[list[Vertex]]:
         for v in self.get_vertices():
             if v.depth == -1:
+                print(f"Начало обхода с вершины {v.index}")
                 self.strongconnect(v)
         return self.sccs
 
@@ -123,3 +129,9 @@ class Graph:
     def print(self) -> None:
         for edge in self.edges:
             print(f"Vertex {edge.starting_vertex.index} -> Vertex {edge.ending_vertex.index}")
+
+# Show SCC's vertices by their index..
+def show_scc(scc: list[Vertex]) -> None:
+    indices: list[int] = [v.index for v in scc]
+    indices.sort()
+    print(indices)
